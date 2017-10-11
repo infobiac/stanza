@@ -76,7 +76,7 @@ class CoreNLPClient(object):
             else:
                 raise AnnotationException(r.text)
 
-    def annotate_json(self, text, annotators=None):
+    def annotate_json(self, text, properties=None, annotators=None):
         """Return a JSON dict from the CoreNLP server, containing annotations of the text.
 
         :param (str) text: Text to annotate.
@@ -92,10 +92,10 @@ class CoreNLPClient(object):
         #}
         #return self._request(text, properties).json(strict=False)
 
-        doc = self.annotate(text, annotators)
+        doc = self.annotate(text, annotators, properties)
         return doc.json
 
-    def annotate_proto(self, text, annotators=None):
+    def annotate_proto(self, text, props, annotators=None):
         """Return a Document protocol buffer from the CoreNLP server, containing annotations of the text.
 
         :param (str) text: text to be annotated
@@ -108,6 +108,9 @@ class CoreNLPClient(object):
             'outputFormat': 'serialized',
             'serializer': 'edu.stanford.nlp.pipeline.ProtobufAnnotationSerializer'
         }
+        if props != None:
+            properties.update(props)
+
         r = self._request(text, properties)
         buffer = r.content  # bytes
 
@@ -117,7 +120,7 @@ class CoreNLPClient(object):
         doc.ParseFromString(buffer)
         return doc
 
-    def annotate(self, text, annotators=None):
+    def annotate(self, text, properties=None, annotators=None):
         """Return an AnnotatedDocument from the CoreNLP server.
 
         :param (str) text: text to be annotated
@@ -128,7 +131,7 @@ class CoreNLPClient(object):
 
         :return (AnnotatedDocument): an annotated document
         """
-        doc_pb = self.annotate_proto(text, annotators)
+        doc_pb = self.annotate_proto(text, annotators, properties)
         return AnnotatedDocument.from_pb(doc_pb)
 
 class ProtobufBacked(object):
