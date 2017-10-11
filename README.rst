@@ -15,16 +15,10 @@ You can install the package as follows:
 
 ::
 
-    git clone git@github.com:stanfordnlp/stanza.git
+    git clone https://github.com/infobiac/stanza.git 
     cd stanza
     pip install -e .
 
-To use the package, import it in your python code. An example would be:
-
-::
-
-    from stanza.text.vocab import Vocab
-    v = Vocab('UNK')
     
 To use the Python client for the CoreNLP server, `first launch your CoreNLP Java server <https://stanfordnlp.github.io/CoreNLP/corenlp-server.html>`__. Then, in your Python program:
 
