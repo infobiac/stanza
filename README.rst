@@ -17,6 +17,7 @@ You can install the package as follows:
 
     git clone https://github.com/infobiac/stanza.git 
     cd stanza
+    pip install -r requirements.txt
     pip install -e .
 
     
